@@ -1,143 +1,77 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Gangarampur Service - Daily Sheet</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef1f5;--card:#fff;--ink:#17202b;--mut:#5b6675;--line:#d5dbe3;--acc:#0b4fa8;--acc-ink:#fff;--warn:#b42318;--ok:#0f7b45}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f141b;--card:#18202a;--ink:#e8edf3;--mut:#9aa6b4;--line:#2b3644;--acc:#5b9bff;--acc-ink:#0b1420;--warn:#ff8a7a;--ok:#5fd394}}
-:root[data-theme="dark"]{--bg:#0f141b;--card:#18202a;--ink:#e8edf3;--mut:#9aa6b4;--line:#2b3644;--acc:#5b9bff;--acc-ink:#0b1420;--warn:#ff8a7a;--ok:#5fd394}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*,*:before,*:after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
-h1{font-size:19px;margin:0;font-weight:600}h2{font-size:15px;margin:0 0 10px;font-weight:600}
-.wrap{max-width:1080px;margin:0 auto;padding:14px}
-header{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px}
-.mut{color:var(--mut);font-size:13px}.ctl{display:flex;gap:8px;align-items:center}
-.ctl input{width:auto;margin:0}
-.chip{font-size:12px;padding:3px 9px;border:1px solid var(--line);border-radius:99px;color:var(--ok);background:var(--card)}.chip.bad{color:var(--warn)}
-.ban{background:var(--card);border:1px solid var(--warn);color:var(--warn);padding:8px 12px;border-radius:8px;margin-bottom:10px}
-nav{display:flex;gap:6px;margin-bottom:12px}
-button{font:inherit}
-nav button{padding:8px 16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer}
-nav button.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-label{font-size:12px;color:var(--mut);display:block}
-input,select{width:100%;margin-top:3px;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
-:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
-.row{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}.sp{flex:1}
-.pri,.ghost{padding:9px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--acc)}
-.pri{background:var(--acc);color:var(--acc-ink)}.ghost{background:none;color:var(--acc)}
-.ov{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
-th{color:var(--mut);font-weight:500;font-size:12px}
-td.n,th.n{text-align:right}td input{width:110px;margin:0;text-align:right}
-.lk{background:none;border:0;color:var(--acc);cursor:pointer;padding:2px 6px}.lk.d{color:var(--warn)}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;align-items:start}
-.r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
-.r input{width:110px;margin:0;text-align:right}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#eef1f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f141b" media="(prefers-color-scheme: dark)">
+  <title>Gangarampur Service - Daily Sheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 </head>
-<body>
-<div class="wrap">
-<header>
- <div><h1>Gangarampur Service</h1><span class="mut">Daily service sheet</span></div>
- <div class="ctl"><input type="date" id="dt" aria-label="Sheet date"><span id="st" class="chip">Connecting...</span><button class="lk" id="so" hidden>Sign out</button></div>
-</header>
-<form id="lg" class="card" hidden style="max-width:360px"><h2>Sign in</h2><label>Email<input type="email" id="em" required></label><label style="margin-top:8px">Password<input type="password" id="pw" required></label><p id="le" class="mut"></p><button class="pri">Sign in</button></form>
-<div id="app" hidden><nav><button data-tab="jobs" class="on">Jobcards</button><button data-tab="rep">Reports</button></nav>
-<section id="tab-jobs">
- <form id="f" class="card">
-  <h2 id="ft">New jobcard</h2>
-  <div class="grid" id="fg"></div>
-  <div class="row"><b>Total with GST: &#8377;<span id="tt">0</span></b><span class="sp"></span><button type="button" class="ghost" id="cx" hidden>Cancel</button><button class="pri" id="sv">Add jobcard</button></div>
- </form>
- <div class="card ov" id="lst"></div>
-</section>
-<section id="tab-rep" hidden><div id="rep"></div></section>
-</div></div>
-<script>
-(()=>{
-const $=s=>document.querySelector(s),
-esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
-num=s=>(String(s).replace(/\s/g,'').match(/[+-]?\d*\.?\d+/g)||[]).reduce((a,b)=>a+ +b,0),
-inr=n=>(+n||0).toLocaleString('en-IN'),
-iso=d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10),
-dmy=d=>d.slice(8)+'/'+d.slice(5,7)+'/'+d.slice(2,4),
-tm=t=>{const p=t.split(':');return p[0]*60+ +p[1]},
-mins=j=>j.tin&&j.tout?tm(j.tout)-tm(j.tin):null,
-dur=m=>m==null||m<0?'-':Math.floor(m/60)+'h '+String(m%60).padStart(2,'0')+'m';
-const OIL=[440,494,530,596,737],
-FIELDS=[['name','Customer name','t'],['phone','Contact no','tel'],['frame','Vehicle frame no','t'],['reg','Register no','t'],['kms','KMS','n'],['jc','Jobcard no','t'],['type','Type of service','s',['FREE','QUICK','PAID']],['sno','Service number','n'],['tin','Vehicle in','time'],['tout','Vehicle out','time'],['same','Same-day delivery','s',['YES','NO']],['fb','Feedback','s',['EXCELLENT','VERY GOOD']],['rem','Delivery remark','t']],
-AMT=[['labour','Labour'],['inj','Injector clean'],['chain','Chain clean & lube'],['fi','F.I collection'],['pol','Polish'],['parts','Parts'],['lube','Yamaha lube'],['amc','AMC']],
-T=[['Service report','svc'],['Delivered','del'],['Free service','free'],['Paid service','paid'],['AMC service','amcSvc'],['AMC','amc'],['Quick repair','quick'],['Accidental in','accIn'],['Accidental out','accOut'],['Parts sale through WS','wsParts',1],['Accidental parts','accParts',1],['Parts sale through counter','counter',1],['Labour charge','labour',1],['Engine oil sold through WS','oil'],['Accidental labour','accLab',1],['FI collection','fi',1],['Injector collection','inj',1],['Polish','pol',1],['Chain lube','chain',1]],
-M=[['Service report','svc'],['Free service','free'],['Paid service','paid'],['Quick repair','quick'],['A.M.C','amc'],['Accidental service','accIn'],['Workshop parts','wsParts',1],['W/S counter sell','counter',1],['Labour charge','labour',1],['FI collection','fi',1],['Injector collection','inj',1],['Polish','pol',1],['Chain lube','chain',1],['Y-lube sale WS','oil']],
-MAN=['amcSvc','amc','accIn','accOut','accParts','counter','accLab'];
-const SB='https://zxvnkroukqwqivlttwio.supabase.co',KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp4dm5rcm91a3F3cWl2bHR0d2lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMzA5NjQsImV4cCI6MjEwNTgwNjk2NH0.3aZ_Gs6OYCL9zcIbSi_vwQFpk7IRxu21hRkL_TlA2dU';
-let db=false,ses=null,date=iso(new Date()),days={},open={},edit=-1,mon='',q=Promise.resolve(),ft;
-async function auth(g,b){const r=await fetch(SB+'/auth/v1/token?grant_type='+g,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(b)}),j=await r.json();
- if(!r.ok)throw new Error(j.error_description||j.msg||'Sign-in failed');
- ses={access_token:j.access_token,refresh_token:j.refresh_token,expires_at:j.expires_at||Math.floor(Date.now()/1e3)+j.expires_in};try{localStorage.setItem('gs_ses',JSON.stringify(ses))}catch(e){}}
-const fresh=async f=>{if(ses&&(f||ses.expires_at*1e3-Date.now()<6e4))await auth('refresh_token',{refresh_token:ses.refresh_token})};
-async function api(m,p,b,x){await fresh();const r=await fetch(SB+p,{method:m,headers:{apikey:KEY,Authorization:'Bearer '+(ses?ses.access_token:KEY),'Content-Type':'application/json',...x},body:b?JSON.stringify(b):undefined}),t=await r.text();
- if(!r.ok){const e=new Error(t);e.code=r.status;throw e}return t?JSON.parse(t):null}
+<body class="min-h-full bg-[var(--bg)] text-[var(--ink)] antialiased">
+  <div class="mx-auto flex min-h-screen min-h-[100dvh] max-w-[1080px] flex-col px-[14px] py-[14px] md:px-[22px] md:py-[22px]">
+    <header class="mb-3 flex flex-wrap items-center justify-between gap-2.5" style="animation: fadeDown .5s var(--ease) both;">
+      <div>
+        <h1 class="m-0 text-[19px] font-semibold">Gangarampur Service</h1>
+        <span class="text-[13px] text-[var(--mut)]">Daily service sheet</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <input type="date" id="dt" aria-label="Sheet date" class="h-[38px] w-auto rounded-[6px] border border-[var(--line)] bg-[var(--bg)] px-2.5 text-[var(--ink)] outline-none transition duration-200 hover:border-[color:var(--acc)] focus:border-[var(--acc)] focus:ring-2 focus:ring-[color:var(--acc)]/20">
+        <span id="st" class="chip">Connecting...</span>
+        <button class="lk text-[var(--acc)] transition-colors duration-200 hover:bg-[color:var(--acc)]/10" id="so" hidden>Sign out</button>
+      </div>
+    </header>
 
-const tot=j=>AMT.reduce((s,[k])=>s+(+j[k]||0),0),
-day=()=>days[date]||{jobs:[],man:{}};
-function rep(L,m){const sum=k=>L.reduce((s,j)=>s+(+j[k]||0),0),cnt=t=>L.filter(j=>j.type===t).length,g=k=>+m[k]||0;
- return{svc:L.length,del:L.filter(j=>j.tout).length,free:cnt('FREE'),paid:cnt('PAID'),quick:cnt('QUICK'),amcSvc:g('amcSvc'),amc:g('amc'),accIn:g('accIn'),accOut:g('accOut'),accParts:g('accParts'),counter:g('counter'),accLab:g('accLab'),wsParts:sum('parts')+sum('lube'),labour:sum('labour'),oil:L.filter(j=>OIL.includes(+j.lube)).length,fi:sum('fi'),inj:sum('inj'),pol:sum('pol'),chain:sum('chain')}}
-function mtd(){const a={};Object.keys(days).filter(d=>d<=date).forEach(d=>{const x=rep(days[d].jobs||[],days[d].man||{});for(const k in x)a[k]=(a[k]||0)+x[k]});return a}
+    <form id="lg" class="mx-auto w-full max-w-[380px] rounded-[10px] border border-[var(--line)] bg-[var(--card)] p-[14px] text-center shadow-[var(--shadow-sm)]" hidden>
+      <div class="login-badge" aria-hidden="true">GS</div>
+      <h2 class="text-center text-[18px] font-semibold">Sign in</h2>
+      <p class="mb-4 text-center text-[13px] text-[var(--mut)]">Enter your credentials to open the daily sheet</p>
 
-function flash(m,bad){const s=$('#st');s.textContent=m;s.className='chip'+(bad?' bad':'');clearTimeout(ft);ft=setTimeout(()=>{s.textContent=db?'Connected':'Not connected';s.className='chip'+(db?'':' bad')},2500)}
-const sv=fn=>{if(!db){flash('Not saved: database not connected',1);return}
- q=q.then(fn).then(()=>flash('Saved')).catch(er=>flash(er&&(er.code===401||er.code===403)?'Not allowed: sign in again':'Save failed ('+((er&&er.code)||'error')+')',1))};
-const put=p=>{const d=day(),nd={month:date.slice(0,7),date,jobs:d.jobs||[],man:d.man||{},...p};days={...days,[date]:nd};draw();sv(()=>api('POST','/rest/v1/service_days?on_conflict=day',{day:date,jobs:nd.jobs,man:nd.man},{Prefer:'resolution=merge-duplicates,return=minimal'}))};
+      <label class="block text-left text-[12px] font-medium text-[var(--mut)]">
+        Email
+        <input type="email" id="em" required autocomplete="username" class="mt-1.5 w-full rounded-[6px] border border-[var(--line)] bg-[var(--bg)] px-2.5 py-2.5 text-[var(--ink)] transition duration-200 hover:border-[color:var(--acc)] focus:border-[var(--acc)] focus:outline-none focus:ring-2 focus:ring-[color:var(--acc)]/20">
+      </label>
 
-function draw(){
- const L=day().jobs||[],r=rep(L,day().man||{}),a=mtd(),f=(v,m)=>m?'\u20B9'+inr(v):inr(v),from=dmy(date.slice(0,8)+'01');
- $('#lst').innerHTML=L.length?`<table><thead><tr><th>SL</th><th>Customer</th><th>Reg no</th><th>Jobcard</th><th>Type</th><th>In - Out</th><th>Duration</th><th class="n">Total &#8377;</th><th></th></tr></thead><tbody>${L.map((j,i)=>`<tr><td>${i+1}</td><td>${esc(j.name)}</td><td>${esc(j.reg)}</td><td title="${esc(j.jc)}">${esc(String(j.jc||'').split('/').pop())}</td><td>${esc(j.type)}</td><td>${esc(j.tin)} - ${esc(j.tout)}</td><td>${dur(mins(j))}</td><td class="n">${inr(tot(j))}</td><td><button class="lk" data-e="${i}">Edit</button><button class="lk d" data-x="${i}">Delete</button></td></tr>`).join('')}</tbody><tfoot><tr><th colspan="7">Total</th><th class="n">${inr(L.reduce((s,j)=>s+tot(j),0))}</th><th></th></tr></tfoot></table>`:'<p class="mut">No jobcards for this date yet. Add the first one above.</p>';
- $('#rep').innerHTML=`<div class="row" style="margin:0 0 12px"><button class="pri" id="cp">Copy WhatsApp report</button></div><div class="two"><div class="card"><h2>Today's report - ${dmy(date)}</h2>${T.map(([l,k,m])=>`<div class="r"><span>${l}</span>${MAN.includes(k)?`<input data-man="${k}" value="${r[k]}" inputmode="decimal" aria-label="${l}">`:`<b>${f(r[k],m)}</b>`}</div>`).join('')}</div><div class="card ov"><h2>Month to date - ${from} to ${dmy(date)}</h2><table><thead><tr><th>Item</th><th class="n">Opening</th><th class="n">In app</th><th class="n">Total</th></tr></thead><tbody>${M.map(([l,k,m])=>`<tr><td>${l}</td><td class="n"><input data-open="${k}" value="${open[k]||0}" inputmode="decimal" aria-label="Opening ${l}"></td><td class="n">${f(a[k]||0,m)}</td><td class="n"><b>${f((+open[k]||0)+(a[k]||0),m)}</b></td></tr>`).join('')}</tbody></table><p class="mut">Opening = totals before the first day entered in this app. Engine oil counts Yamaha lube amounts of 440, 494, 530, 596 or 737.</p></div></div>`}
+      <label class="mt-2 block text-left text-[12px] font-medium text-[var(--mut)]">
+        Password
+        <input type="password" id="pw" required autocomplete="current-password" class="mt-1.5 w-full rounded-[6px] border border-[var(--line)] bg-[var(--bg)] px-2.5 py-2.5 text-[var(--ink)] transition duration-200 hover:border-[color:var(--acc)] focus:border-[var(--acc)] focus:outline-none focus:ring-2 focus:ring-[color:var(--acc)]/20">
+      </label>
 
-function txt(){const r=rep(day().jobs||[],day().man||{}),a=mtd(),z=m=>m?'Rs ':'';
- return `*GANGARAMPUR SERVICE*\nDate - ${dmy(date)}\n`+T.map(([l,k,m])=>`${l} - ${z(m)}${inr(r[k])}`).join('\n')+`\n\n*Service Report*\nDate - ${dmy(date.slice(0,8)+'01')} To ${dmy(date)}\n`+M.map(([l,k,m])=>`${l} - ${z(m)}${inr((+open[k]||0)+(a[k]||0))}`).join('\n')}
-async function copy(t){try{await navigator.clipboard.writeText(t);flash('Report copied')}catch(e){const x=document.createElement('textarea');x.value=t;document.body.append(x);x.select();try{document.execCommand('copy');flash('Report copied')}catch(_){flash('Copy failed',1)}x.remove()}}
+      <p id="le" class="mt-2 min-h-[16px] text-[13px] text-[var(--warn)]"></p>
+      <button class="pri mt-3 w-full rounded-[6px] border border-[var(--acc)] bg-[var(--acc)] px-4 py-[11px] font-semibold text-[var(--acc-ink)] transition duration-200 hover:shadow-[0_6px_16px_-6px_rgba(11,79,168,.6)] active:scale-[.96]">Sign in</button>
+    </form>
 
-const fld=(k,l,t,o)=>`<label>${l}${t==='s'?`<select data-k="${k}">${o.map(x=>`<option>${x}</option>`).join('')}</select>`:`<input data-k="${k}" ${t==='n'?'inputmode="decimal" data-n="1"':t==='time'?'type="time"':t==='tel'?'type="tel"':''} ${k==='name'||k==='jc'?'required':''} autocomplete="off">`}</label>`;
-const setForm=j=>{document.querySelectorAll('#f [data-k]').forEach(e=>{const v=j?j[e.dataset.k]:null;if(e.tagName==='SELECT')e.value=v||e.options[0].value;else e.value=v==null?(e.dataset.k==='rem'?'DONE':''):(v===0?'':v)});upTot()},
-rf=()=>{const o={};document.querySelectorAll('#f [data-k]').forEach(e=>o[e.dataset.k]=e.dataset.n?num(e.value):e.value.trim());return o},
-upTot=()=>{$('#tt').textContent=inr(AMT.reduce((s,[k])=>s+num($('#f [data-k="'+k+'"]').value),0))},
-reset=()=>{edit=-1;setForm(null);$('#ft').textContent='New jobcard';$('#sv').textContent='Add jobcard';$('#cx').hidden=true},
-tab=t=>['jobs','rep'].forEach(x=>{$('#tab-'+x).hidden=x!==t;document.querySelector('nav [data-tab="'+x+'"]').classList.toggle('on',x===t)});
+    <div id="app" hidden>
+      <nav class="mb-3 flex gap-1.5">
+        <button data-tab="jobs" class="on rounded-[8px] border border-[var(--line)] bg-[var(--card)] px-4 py-2 text-[var(--ink)] transition duration-200 hover:border-[var(--acc)] hover:text-[var(--acc)] active:scale-[.96]">Jobcards</button>
+        <button data-tab="rep" class="rounded-[8px] border border-[var(--line)] bg-[var(--card)] px-4 py-2 text-[var(--ink)] transition duration-200 hover:border-[var(--acc)] hover:text-[var(--acc)] active:scale-[.96]">Reports</button>
+      </nav>
 
-async function watch(k){const m=date.slice(0,7),nx=iso(new Date(+m.slice(0,4),+m.slice(5),1));if(!k){mon=m;days={};open={};draw()}
- try{const[a,b]=await Promise.all([api('GET','/rest/v1/service_days?select=day,jobs,man&order=day&day=gte.'+m+'-01&day=lt.'+nx),api('GET','/rest/v1/service_opening?select=vals&month=eq.'+m)]);
-  if(m!==date.slice(0,7))return;mon=m;days={};a.forEach(r=>days[r.day]={month:m,date:r.day,jobs:r.jobs||[],man:r.man||{}});open=b[0]?b[0].vals||{}:{};draw();flash('Loaded')}catch(e){flash('Load failed ('+(e.code||e.message)+')',1)}}
+      <section id="tab-jobs">
+        <form id="f" class="mb-3 rounded-[10px] border border-[var(--line)] bg-[var(--card)] p-[14px] shadow-[var(--shadow-sm)]" style="animation: fadeUp .45s var(--ease) both;">
+          <h2 id="ft" class="mb-2.5 text-[15px] font-semibold">New jobcard</h2>
+          <div class="grid mobile-grid gap-2.5" id="fg" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));"></div>
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <b class="text-[15px]">Total with GST: ₹<span id="tt">0</span></b>
+            <span class="flex-1"></span>
+            <button type="button" class="ghost hidden rounded-[6px] border border-[var(--acc)] bg-transparent px-4 py-2.5 text-[var(--acc)] transition duration-200 active:scale-[.96]" id="cx">Cancel</button>
+            <button class="pri rounded-[6px] border border-[var(--acc)] bg-[var(--acc)] px-4 py-2.5 font-medium text-[var(--acc-ink)] transition duration-200 hover:shadow-[0_6px_16px_-6px_rgba(11,79,168,.6)] active:scale-[.96]" id="sv">Add jobcard</button>
+          </div>
+        </form>
 
-$('#f').addEventListener('input',upTot);
-$('#f').addEventListener('submit',e=>{e.preventDefault();const j=rf(),L=[...(day().jobs||[])];if(edit>=0)L[edit]=j;else L.push(j);reset();put({jobs:L});$('#f [data-k="name"]').focus()});
-$('#dt').addEventListener('change',e=>{if(!e.target.value)return;date=e.target.value;reset();if(db&&date.slice(0,7)!==mon)watch();else draw()});
-$('#rep').addEventListener('change',e=>{const t=e.target,v=num(t.value);
- if(t.dataset.man)put({man:{...(day().man||{}),[t.dataset.man]:v}});
- else if(t.dataset.open){open={...open,[t.dataset.open]:v};draw();const o=open,m=mon;sv(()=>api('POST','/rest/v1/service_opening?on_conflict=month',{month:m,vals:o},{Prefer:'resolution=merge-duplicates,return=minimal'}))}});
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
- if(b.dataset.tab)tab(b.dataset.tab);
- else if(b.id==='cp')copy(txt());
- else if(b.id==='cx')reset();
- else if(b.dataset.e!=null){edit=+b.dataset.e;setForm(day().jobs[edit]);$('#ft').textContent='Edit jobcard '+(edit+1);$('#sv').textContent='Update jobcard';$('#cx').hidden=false;$('#f').scrollIntoView()}
- else if(b.dataset.x!=null){if(b.dataset.arm){const i=+b.dataset.x;if(edit>=0)reset();put({jobs:day().jobs.filter((_,n)=>n!==i)})}else{b.dataset.arm='1';b.textContent='Confirm?';setTimeout(()=>{b.dataset.arm='';b.textContent='Delete'},3000)}}});
+        <div class="ov overflow-x-auto rounded-[10px] border border-[var(--line)] bg-[var(--card)] p-[14px] shadow-[var(--shadow-sm)]" id="lst"></div>
+      </section>
 
-$('#fg').innerHTML=FIELDS.map(x=>fld(...x)).join('')+AMT.map(([k,l])=>fld(k,l+' (\u20B9)','n')).join('');
-$('#dt').value=date;setForm(null);draw();
-const show=on=>{db=on;$('#lg').hidden=on;$('#app').hidden=!on;$('#so').hidden=!on;$('#st').textContent=on?'Connected':'Signed out';$('#st').className='chip'+(on?'':' bad')};
-$('#lg').addEventListener('submit',async e=>{e.preventDefault();$('#le').textContent='';try{await auth('password',{email:$('#em').value.trim(),password:$('#pw').value});$('#pw').value='';show(true);watch()}catch(x){$('#le').textContent=x.message}});
-$('#so').addEventListener('click',()=>{ses=null;try{localStorage.removeItem('gs_ses')}catch(e){}show(false)});
-document.addEventListener('visibilitychange',()=>{if(db&&!document.hidden)watch(1)});
-(async()=>{try{ses=JSON.parse(localStorage.getItem('gs_ses'))}catch(e){}
- if(ses){try{await fresh(true);show(true);watch();return}catch(e){ses=null}}show(false)})();
-})();
-</script>
+      <section id="tab-rep" hidden>
+        <div id="rep"></div>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
