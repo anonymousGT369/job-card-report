@@ -3,42 +3,117 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#eef1f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f141b" media="(prefers-color-scheme: dark)">
 <title>Gangarampur Service - Daily Sheet</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef1f5;--card:#fff;--ink:#17202b;--mut:#5b6675;--line:#d5dbe3;--acc:#0b4fa8;--acc-ink:#fff;--warn:#b42318;--ok:#0f7b45}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f141b;--card:#18202a;--ink:#e8edf3;--mut:#9aa6b4;--line:#2b3644;--acc:#5b9bff;--acc-ink:#0b1420;--warn:#ff8a7a;--ok:#5fd394}}
-:root[data-theme="dark"]{--bg:#0f141b;--card:#18202a;--ink:#e8edf3;--mut:#9aa6b4;--line:#2b3644;--acc:#5b9bff;--acc-ink:#0b1420;--warn:#ff8a7a;--ok:#5fd394}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef1f5;--card:#fff;--ink:#17202b;--mut:#5b6675;--line:#d5dbe3;--acc:#0b4fa8;--acc-ink:#fff;--warn:#b42318;--ok:#0f7b45;--ease:cubic-bezier(.4,0,.2,1);--dur:180ms;--shadow:0 1px 2px rgba(20,30,50,.04),0 10px 28px -16px rgba(20,30,50,.18);--shadow-sm:0 1px 2px rgba(20,30,50,.06)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f141b;--card:#18202a;--ink:#e8edf3;--mut:#9aa6b4;--line:#2b3644;--acc:#5b9bff;--acc-ink:#0b1420;--warn:#ff8a7a;--ok:#5fd394;--shadow:0 1px 2px rgba(0,0,0,.35),0 14px 30px -16px rgba(0,0,0,.55);--shadow-sm:0 1px 3px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#0f141b;--card:#18202a;--ink:#e8edf3;--mut:#9aa6b4;--line:#2b3644;--acc:#5b9bff;--acc-ink:#0b1420;--warn:#ff8a7a;--ok:#5fd394;--shadow:0 1px 2px rgba(0,0,0,.35),0 14px 30px -16px rgba(0,0,0,.55);--shadow-sm:0 1px 3px rgba(0,0,0,.4)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*:before,*:after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
 h1{font-size:19px;margin:0;font-weight:600}h2{font-size:15px;margin:0 0 10px;font-weight:600}
-.wrap{max-width:1080px;margin:0 auto;padding:14px}
-header{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px}
-.mut{color:var(--mut);font-size:13px}.ctl{display:flex;gap:8px;align-items:center}
+.wrap{max-width:1080px;margin:0 auto;padding:14px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+header{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:12px;animation:fadeDown .5s var(--ease) both}
+.mut{color:var(--mut);font-size:13px}.ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .ctl input{width:auto;margin:0}
-.chip{font-size:12px;padding:3px 9px;border:1px solid var(--line);border-radius:99px;color:var(--ok);background:var(--card)}.chip.bad{color:var(--warn)}
+.chip{font-size:12px;padding:3px 9px 3px 20px;border:1px solid var(--line);border-radius:99px;color:var(--ok);background:var(--card);position:relative;transition:color var(--dur) var(--ease),border-color var(--dur) var(--ease)}
+.chip:before{content:"";position:absolute;left:8px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:currentColor;animation:dotPulse 1.8s ease-in-out infinite}
+.chip.bad{color:var(--warn)}
 .ban{background:var(--card);border:1px solid var(--warn);color:var(--warn);padding:8px 12px;border-radius:8px;margin-bottom:10px}
 nav{display:flex;gap:6px;margin-bottom:12px}
-button{font:inherit}
-nav button{padding:8px 16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer}
+button{font:inherit;-webkit-tap-highlight-color:transparent}
+nav button{padding:8px 16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;cursor:pointer;transition:background var(--dur) var(--ease),color var(--dur) var(--ease),border-color var(--dur) var(--ease),transform 120ms var(--ease)}
 nav button.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:12px}
+nav button:active{transform:scale(.96)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow-sm);animation:fadeUp .45s var(--ease) both}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 label{font-size:12px;color:var(--mut);display:block}
-input,select{width:100%;margin-top:3px;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+input,select{width:100%;margin-top:3px;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit;transition:border-color var(--dur) var(--ease),box-shadow var(--dur) var(--ease)}
+input:hover,select:hover{border-color:color-mix(in srgb,var(--line) 40%,var(--acc))}
 :focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+input:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 18%,transparent)}
 .row{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}.sp{flex:1}
-.pri,.ghost{padding:9px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--acc)}
+.pri,.ghost{padding:9px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--acc);transition:background var(--dur) var(--ease),transform 120ms var(--ease),box-shadow var(--dur) var(--ease),opacity var(--dur) var(--ease)}
 .pri{background:var(--acc);color:var(--acc-ink)}.ghost{background:none;color:var(--acc)}
-.ov{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
+.pri:hover{box-shadow:0 6px 16px -6px color-mix(in srgb,var(--acc) 60%,transparent)}
+.pri:active,.ghost:active{transform:scale(.96)}
+.ov{overflow-x:auto;-webkit-overflow-scrolling:touch}table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
 th{color:var(--mut);font-weight:500;font-size:12px}
 td.n,th.n{text-align:right}td input{width:110px;margin:0;text-align:right}
-.lk{background:none;border:0;color:var(--acc);cursor:pointer;padding:2px 6px}.lk.d{color:var(--warn)}
+tbody tr{transition:background var(--dur) var(--ease);animation:rowIn .35s var(--ease) both}
+tbody tr:hover{background:color-mix(in srgb,var(--acc) 6%,transparent)}
+.lk{background:none;border:0;color:var(--acc);cursor:pointer;padding:4px 7px;border-radius:5px;transition:background var(--dur) var(--ease),color var(--dur) var(--ease),transform 120ms var(--ease)}
+.lk.d{color:var(--warn)}
+.lk:hover{background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.lk.d:hover{background:color-mix(in srgb,var(--warn) 12%,transparent)}
+.lk:active{transform:scale(.94)}
+.lk.d[data-arm="1"]{animation:armPulse 1s ease-in-out infinite;font-weight:600}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;align-items:start}
-.r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+.r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);transition:background var(--dur) var(--ease)}
+.r:hover{background:color-mix(in srgb,var(--acc) 5%,transparent)}
 .r input{width:110px;margin:0;text-align:right}
+
+/* ---------- login screen ---------- */
+#lg{max-width:380px;width:100%;margin:auto;text-align:center;position:relative;overflow:hidden;animation:loginIn .55s var(--ease) both}
+#lg:before{content:"";position:absolute;inset:-40% -40% auto -40%;height:220px;background:radial-gradient(closest-side,color-mix(in srgb,var(--acc) 22%,transparent),transparent);animation:glowDrift 7s ease-in-out infinite;pointer-events:none;z-index:0}
+#lg>*{position:relative;z-index:1}
+.login-badge{width:52px;height:52px;margin:0 auto 12px;border-radius:14px;background:linear-gradient(135deg,var(--acc),color-mix(in srgb,var(--acc) 60%,#7a4dff));color:var(--acc-ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;letter-spacing:.5px;box-shadow:0 10px 24px -10px color-mix(in srgb,var(--acc) 70%,transparent);animation:badgePop .6s var(--ease) .1s both}
+#lg h2{font-size:18px;text-align:center}
+.login-sub{margin:0 0 16px;text-align:center}
+#lg label{text-align:left}
+#lg .pri{width:100%;margin-top:14px;padding:11px 16px;font-weight:600}
+#lg #le{min-height:16px;color:var(--warn)}
+
+/* ---------- keyframes ---------- */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes rowIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@keyframes loginIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes badgePop{0%{opacity:0;transform:scale(.6) rotate(-8deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes dotPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 color-mix(in srgb,currentColor 45%,transparent)}50%{opacity:.65;box-shadow:0 0 0 4px transparent}}
+@keyframes armPulse{0%,100%{opacity:1}50%{opacity:.55}}
+@keyframes glowDrift{0%,100%{transform:translateX(-6%) translateY(0)}50%{transform:translateX(6%) translateY(4%)}}
+@keyframes tabIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+section.anim-in{animation:tabIn .3s var(--ease) both}
+
+@media (prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+ #lg:before{display:none}
+}
+
+/* ---------- responsive: phones ---------- */
+@media (max-width:640px){
+ .wrap{padding:10px}
+ header{gap:8px}
+ h1{font-size:17px}
+ .ctl{width:100%;justify-content:space-between}
+ nav{gap:4px}
+ nav button{flex:1;padding:9px 8px;font-size:13px;text-align:center}
+ .card{padding:12px;border-radius:9px}
+ input,select{font-size:16px;padding:10px}
+ .pri,.ghost{padding:11px 14px;font-size:14px}
+ .row{margin-top:10px}
+ th,td{padding:6px 7px;font-size:13px}
+ .grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+ .login-badge{width:46px;height:46px;font-size:16px}
+}
+@media (max-width:380px){
+ .grid{grid-template-columns:repeat(2,1fr)}
+ nav button{font-size:12px;padding:9px 4px}
+ h1{font-size:16px}
+}
+@media (min-width:900px){
+ .wrap{padding:22px}
+}
+@media (hover:none){
+ .lk:hover,.r:hover,tbody tr:hover,.pri:hover{background:initial;box-shadow:none}
+}
 </style>
 </head>
 <body>
@@ -47,7 +122,15 @@ td.n,th.n{text-align:right}td input{width:110px;margin:0;text-align:right}
  <div><h1>Gangarampur Service</h1><span class="mut">Daily service sheet</span></div>
  <div class="ctl"><input type="date" id="dt" aria-label="Sheet date"><span id="st" class="chip">Connecting...</span><button class="lk" id="so" hidden>Sign out</button></div>
 </header>
-<form id="lg" class="card" hidden style="max-width:360px"><h2>Sign in</h2><label>Email<input type="email" id="em" required></label><label style="margin-top:8px">Password<input type="password" id="pw" required></label><p id="le" class="mut"></p><button class="pri">Sign in</button></form>
+<form id="lg" class="card" hidden>
+ <div class="login-badge" aria-hidden="true">GS</div>
+ <h2>Sign in</h2>
+ <p class="mut login-sub">Enter your credentials to open the daily sheet</p>
+ <label>Email<input type="email" id="em" required autocomplete="username"></label>
+ <label style="margin-top:8px">Password<input type="password" id="pw" required autocomplete="current-password"></label>
+ <p id="le" class="mut"></p>
+ <button class="pri">Sign in</button>
+</form>
 <div id="app" hidden><nav><button data-tab="jobs" class="on">Jobcards</button><button data-tab="rep">Reports</button></nav>
 <section id="tab-jobs">
  <form id="f" class="card">
@@ -110,7 +193,7 @@ const setForm=j=>{document.querySelectorAll('#f [data-k]').forEach(e=>{const v=j
 rf=()=>{const o={};document.querySelectorAll('#f [data-k]').forEach(e=>o[e.dataset.k]=e.dataset.n?num(e.value):e.value.trim());return o},
 upTot=()=>{$('#tt').textContent=inr(AMT.reduce((s,[k])=>s+num($('#f [data-k="'+k+'"]').value),0))},
 reset=()=>{edit=-1;setForm(null);$('#ft').textContent='New jobcard';$('#sv').textContent='Add jobcard';$('#cx').hidden=true},
-tab=t=>['jobs','rep'].forEach(x=>{$('#tab-'+x).hidden=x!==t;document.querySelector('nav [data-tab="'+x+'"]').classList.toggle('on',x===t)});
+tab=t=>['jobs','rep'].forEach(x=>{const sec=$('#tab-'+x),on=x===t;sec.hidden=!on;if(on){sec.classList.remove('anim-in');void sec.offsetWidth;sec.classList.add('anim-in')}document.querySelector('nav [data-tab="'+x+'"]').classList.toggle('on',on)});
 
 async function watch(k){const m=date.slice(0,7),nx=iso(new Date(+m.slice(0,4),+m.slice(5),1));if(!k){mon=m;days={};open={};draw()}
  try{const[a,b]=await Promise.all([api('GET','/rest/v1/service_days?select=day,jobs,man&order=day&day=gte.'+m+'-01&day=lt.'+nx),api('GET','/rest/v1/service_opening?select=vals&month=eq.'+m)]);
